@@ -1,0 +1,14 @@
+[
+  {
+    "nombre": "Proyecto Las Palmas",
+    "ubicacion": "Yurimaguas",
+    "precio": "S/ 12,000",
+    "lote": "250 m2"
+  },
+  {
+    "nombre": "Proyecto San Juan",
+    "ubicacion": "Yurimaguas",
+    "precio": "S/ 15,000",
+    "lote": "300 m2"
+  }
+]

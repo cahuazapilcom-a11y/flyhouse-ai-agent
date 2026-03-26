@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+requests
+python-dotenv
+langchain
+langchain-openai
+langchain-community
+langchain-core
+langchain-text-splitters
+langchain-tavily
+faiss-cpu
+pypdf
+docx2txt

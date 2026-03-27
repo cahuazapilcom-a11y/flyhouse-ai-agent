@@ -49,7 +49,7 @@ async def verify_webhook(request: Request):
     if mode == "subscribe" and token == WHATSAPP_VERIFY_TOKEN:
         return PlainTextResponse(content=challenge, status_code=200)
 
-    raise HTTPException(status_code=403, detail="Verify token inválido")
+    raise HTTPException(status_code=403, detail="Verify token invalido")
 
 
 @app.post("/webhook")
@@ -67,8 +67,6 @@ async def receive_webhook(request: Request):
                 messages = value.get("messages", [])
 
                 if not messages:
-                    # Meta envía notificaciones de estado (leído, entregado)
-                    # que no tienen mensajes — ignorar silenciosamente
                     continue
 
                 for msg in messages:
@@ -88,10 +86,10 @@ async def receive_webhook(request: Request):
 
                     user_info = AUTHORIZED_USERS.get(from_number)
                     if not user_info:
-                        logger.info(f"[DENIED] Número no autorizado: {from_number}")
+                        logger.info(f"[DENIED] Numero no autorizado: {from_number}")
                         whatsapp.send_text_message(
                             from_number,
-                            "Acceso no autorizado. Comunícate con el administrador del sistema."
+                            "Acceso no autorizado. Comunicate con el administrador del sistema."
                         )
                         continue
 
@@ -114,11 +112,11 @@ async def receive_webhook(request: Request):
                         continue
 
                     area, response = router.route(user_text)
-                    logger.info(f"[RESPONSE] Área: {area} | Respuesta generada OK")
+                    logger.info(f"[RESPONSE] Area: {area} | Respuesta generada OK")
 
                     final_text = (
-                        f"👤 {user_name} ({user_role})\n"
-                        f"📂 Área: {area}\n\n"
+                        f"Usuario: {user_name} ({user_role})\n"
+                        f"Area: {area}\n\n"
                         f"{response}"
                     )
 
@@ -127,8 +125,7 @@ async def receive_webhook(request: Request):
         return JSONResponse(content={"status": "ok"}, status_code=200)
 
     except Exception as e:
-        # ✅ Siempre retornar 200 a Meta para evitar reintentos
-        logger.error(f"❌ ERROR EN WEBHOOK: {e}")
+        logger.error(f"ERROR EN WEBHOOK: {e}")
         logger.error(traceback.format_exc())
         return JSONResponse(content={"status": "ok"}, status_code=200)
 
@@ -153,20 +150,7 @@ def normalize_phone(phone: str) -> str:
 
 def build_permission_denied_message(user_name: str, role: str, detected_area: str) -> str:
     return (
-        f"Hola {user_name}, tu rol actual es *{role}* y no tiene permiso "
-        f"para acceder al área *{detected_area}*.\n\n"
-        f"Si necesitas acceso, solicita autorización al administrador."
+        f"Hola {user_name}, tu rol actual es '{role}' y no tiene permiso "
+        f"para acceder al area '{detected_area}'.\n\n"
+        f"Si necesitas acceso, solicita autorizacion al administrador."
     )
-```
-
----
-
-## ✅ Después de hacer el cambio
-
-1. **Sube el código** a tu repositorio → Render redesplegará automáticamente
-2. **Envía un mensaje** desde tu WhatsApp al número de prueba
-3. **Revisa los logs** en Render — ahora verás líneas como:
-```
-[MSG] De: 51918156548 | Texto: hola
-[AREA] Detectada: rrhh para rol: admin
-[RESPONSE] Área: rrhh | Respuesta generada OK

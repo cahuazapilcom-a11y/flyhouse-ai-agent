@@ -20,7 +20,7 @@ AUTHORIZED_USERS = {
     "51918156548": {"name": "Moises", "role": "admin"},
     "51977745422": {"name": "RRHH", "role": "rrhh"},
     "51999999999": {"name": "Supervisor", "role": "supervisor"},
-    "51979307658": {"name": "Admin2", "role": "admin"},
+    "51979307658": {"name": "Santos", "role": "admin"},
     
 }
 

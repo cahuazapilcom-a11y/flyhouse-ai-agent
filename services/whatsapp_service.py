@@ -9,16 +9,10 @@ from app.settings import (
 
 class WhatsAppService:
     def __init__(self):
-        if not WHATSAPP_TOKEN:
-            raise ValueError("Falta WHATSAPP_TOKEN en el archivo .env")
-        if not WHATSAPP_PHONE_NUMBER_ID:
-            raise ValueError("Falta WHATSAPP_PHONE_NUMBER_ID en el archivo .env")
-
         self.base_url = (
             f"https://graph.facebook.com/{WHATSAPP_API_VERSION}/"
             f"{WHATSAPP_PHONE_NUMBER_ID}/messages"
         )
-
         self.headers = {
             "Authorization": f"Bearer {WHATSAPP_TOKEN}",
             "Content-Type": "application/json",
@@ -40,5 +34,9 @@ class WhatsAppService:
             json=payload,
             timeout=30,
         )
+
+        print("STATUS:", response.status_code)
+        print("RESPUESTA META:", response.text)
+
         response.raise_for_status()
         return response.json()
